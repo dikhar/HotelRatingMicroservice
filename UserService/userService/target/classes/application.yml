@@ -1,0 +1,56 @@
+
+spring:
+  application:
+    name:
+      USER-SERVICE
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/hotel
+    username: root
+    password: pass
+    drive-class-name: com.mysql.jdbc.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: create
+      show-sql: true
+#  eureka:
+#    instance:
+#      prefer-ip-address: true
+#    client:
+#      register-with-eureka: true
+#      fetch-registry: true
+#      service-url:
+#        defaultZone: http://localhost:8788
+
+
+#actuator config
+management:
+  health:
+    circuit-breakers:
+      enabled: true
+
+    endpoints:
+      web:
+        exposure:
+          include:
+            health
+
+    endpoint:
+      health:
+        show-details:
+          always
+
+
+#Resiliance 4j config
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
